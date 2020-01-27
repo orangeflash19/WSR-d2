@@ -1,0 +1,23 @@
+<!-- Page Content  -->
+<div id="content">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <!-- {{#each ideas}} -->
+      <div class="card card-body mb-3 text-center text-light">
+
+        <!-- <p>{{email}}</p> -->
+        <p> witness@test.com</p>
+
+        <form action="/ideas/{{id}}?_method=DELETE" method="post">
+          <input type="hidden" name="_method" value="DELETE">
+          <input type="submit" class="btn btn-danger" value="Delete">
+        </form>
+      </div>
+      <!-- {{else}} -->
+      <p>no Witness Registered</p>
+      <!-- {{/each}} -->
+
+    </div>
+  </div>
+
+</div>

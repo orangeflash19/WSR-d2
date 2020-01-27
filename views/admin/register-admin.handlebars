@@ -1,0 +1,43 @@
+<!-- Page Content  -->
+<div id="content">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card card-body">
+
+        <h3 class="text-center"> Admin Account Register </h3>
+
+        <form class="" action="/admin/register-admin" method="post">
+
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" name="username" placeholder="enter your username"
+              value="{{username}}" required>
+          </div>
+
+          <!-- <div class="form-group">
+          <label for="email">email</label>
+          <input class="form-control" type="email" name="email" placeholder="enter your email" value="{{email}}" required>
+        </div> -->
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" type="password" name="password" placeholder="enter your password"
+              value="{{password}}" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password2">Confirm Password</label>
+            <input class="form-control" type="password" name="password2" placeholder="enter your password again"
+              value="{{password2}}" required>
+          </div>
+
+          <div class="text-center">
+            <button class="btn btn-primary align-center" type="submit" name="registerButton"> Register Admin </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

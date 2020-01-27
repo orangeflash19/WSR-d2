@@ -1,0 +1,15 @@
+<div class="jumbotron text-center m-4">
+  <h1 class="display-3 text-light">{{{title}}}</h1>
+  <p class="lead text-light">Welcome to Witness Statement Recorder</p>
+  {{!-- For Admin and Witness --}}
+  {{#if admin}}
+
+  {{else if witness}}
+
+  {{else}}
+  <a href="/witness/login" class="btn btn-dark btn-lg p-2 m-1"><i class="fa fa-user" aria-hidden="true"></i>
+    witness</a>
+  <a href="/admin/login" class="btn btn-dark btn-lg p-2 m-1"><i class="fa fa-user-secret" aria-hidden="true"></i>
+    Admin</a>
+  {{/if}}
+</div>
