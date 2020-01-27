@@ -2,20 +2,19 @@
 <div id="content">
   <div class="row">
     <div class="col-md-6 mx-auto">
-      <!-- {{#each ideas}} -->
-      <div class="card card-body mb-3 text-center text-light">
+      {{#each witnesses}}
+      <div class="card card-body mb-3 text-center text-dark">
 
-        <!-- <p>{{email}}</p> -->
-        <p> witness@test.com</p>
+        <p>{{email}}</p>
 
-        <form action="/ideas/{{id}}?_method=DELETE" method="post">
+        <form action="/admin/witness-list/{{email}}?_method=DELETE" method="post">
           <input type="hidden" name="_method" value="DELETE">
           <input type="submit" class="btn btn-danger" value="Delete">
         </form>
       </div>
-      <!-- {{else}} -->
+      {{else}}
       <p>no Witness Registered</p>
-      <!-- {{/each}} -->
+      {{/each}}
 
     </div>
   </div>

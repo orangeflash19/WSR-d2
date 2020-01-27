@@ -117,6 +117,18 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
+// load Witness model
+require("./models/Witness");
+const Witness = mongoose.model("witnesses");
+
+// Delete witness account
+app.delete("/admin/witness-list/:email", (req, res) => {
+  Witness.deleteOne({ email: req.params.email }).then(() => {
+    req.flash("success_msg", "witness Deleted");
+    res.redirect("/admin/witness-list");
+  });
+});
+
 //starts the server
 app.listen(port, () => {
   console.log(`server started on port ${port}`);

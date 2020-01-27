@@ -154,7 +154,15 @@ router.get("/send-credentials", checkAdmin, (req, res) => {
 
 // Admin witness list route
 router.get("/witness-list", checkAdmin, (req, res) => {
-  res.render("admin/witness-list", { layout: "admindashboard" });
+  Witness.find({})
+    .sort({ date: "desc" })
+    .lean()
+    .then(witnesses => {
+      res.render("admin/witness-list", {
+        witnesses: witnesses,
+        layout: "admindashboard"
+      });
+    });
 });
 
 // Admin Videopage route
