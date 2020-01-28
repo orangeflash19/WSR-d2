@@ -149,6 +149,9 @@ router.post("/register-witness", (req, res) => {
 
 // Admin send Credentials to witness route
 router.get("/send-credentials", checkAdmin, (req, res) => {
+  // Witness.findOne({ email: req.body.email }).then(witness => {
+  //   password: witness.pasword;
+  // });
   res.render("admin/send-credentials", { layout: "admindashboard" });
 });
 
