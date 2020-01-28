@@ -39,16 +39,6 @@ module.exports = function(passport) {
     })
   );
 
-  // passport.serializeUser(function(admin, done) {
-  //   done(null, admin.id);
-  // });
-
-  // passport.deserializeUser(function(id, done) {
-  //   Admin.findById(id, function(err, admin) {
-  //     done(err, admin);
-  //   });
-  // });
-
   // Witness login strategy
   passport.use(
     "witnessLocal",
