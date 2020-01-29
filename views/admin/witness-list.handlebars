@@ -5,7 +5,8 @@
       {{#each witnesses}}
       <div class="card card-body mb-3 text-center text-dark">
 
-        <p>{{email}}</p>
+        <p>Witness email: {{email}}</p>
+        <p>Created on: {{date}}</p>
 
 
         <form action="/admin/witness-list/{{email}}?_method=DELETE" method="post">

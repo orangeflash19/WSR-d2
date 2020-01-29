@@ -1,5 +1,7 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
+const dotenv = require("dotenv");
+dotenv.config();
 const methodOverride = require("method-override");
 const flash = require("connect-flash");
 const session = require("express-session");
@@ -7,6 +9,11 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const path = require("path");
+
+if (!process.env.KEY && !process.env.IV) {
+  console.error("FATAL ERROR: encryption key and iv not defined");
+  process.exit(1);
+}
 
 const app = express();
 const port = process.env.PORT || 3000;

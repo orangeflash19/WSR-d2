@@ -1,4 +1,3 @@
-const roles = require("../config/roles");
 module.exports = {
   checkAdmin: function(req, res, next) {
     if (req.isAuthenticated() && req.user.username) {

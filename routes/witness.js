@@ -17,6 +17,7 @@ router.get("/login", (req, res) => {
 // Witness login POST
 router.post("/login", (req, res, next) => {
   passport.authenticate("witnessLocal", {
+    password: req.body.password,
     successRedirect: "/witness/videocall",
     failureRedirect: "/witness/login",
     failureFlash: true

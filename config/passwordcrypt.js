@@ -1,7 +1,8 @@
+const config = require("config");
 const crypto = require("crypto");
 const algorithm = "aes-256-cbc";
-const key = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
+const key = process.env.KEY;
+const iv = process.env.IV;
 
 function encrypt(text) {
   let cipher = crypto.createCipheriv(algorithm, key, iv);

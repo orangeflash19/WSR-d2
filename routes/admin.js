@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const router = express.Router();
 const { checkAdmin } = require("../helpers/auth");
-const roles = require("../config/roles");
+const passwordcrypt = require("../config/passwordcrypt");
 
 //load Admin model
 require("../models/Admin");
@@ -122,26 +122,25 @@ router.post("/register-witness", (req, res) => {
           email: req.body.email,
           password: req.body.password
         });
-        //console.log(newWitness);
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newWitness.password, salt, (err, hash) => {
-            if (err) throw err;
-            newWitness.password = hash;
-            newWitness
-              .save()
-              .then(() => {
-                req.flash(
-                  "success_msg",
-                  "Witness is now registered and can log in"
-                );
-                res.redirect("/admin/register-witness");
-              })
-              .catch(err => {
-                console.log(err);
-                return;
-              });
+
+        // encrypting witness account password
+        var enc = passwordcrypt.encrypt(newWitness.password);
+        newWitness.password = enc;
+
+        // saving witness details to db - registering witness account
+        newWitness
+          .save()
+          .then(() => {
+            req.flash(
+              "success_msg",
+              "Witness is now registered and can log in"
+            );
+            res.redirect("/admin/register-witness");
+          })
+          .catch(err => {
+            console.log(err);
+            return;
           });
-        });
       }
     });
   }

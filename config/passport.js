@@ -1,6 +1,7 @@
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const bycrypt = require("bcryptjs");
+const passwordcrypt = require("./passwordcrypt");
 
 // Load Admin model
 const Admin = mongoose.model("admins");
@@ -52,14 +53,12 @@ module.exports = function(passport) {
         }
 
         // Match password
-        bycrypt.compare(password, witness.password, (err, isMatch) => {
-          if (err) throw err;
-          if (isMatch) {
-            return done(null, witness);
-          } else {
-            return done(null, false, { message: "Password Incorrect" });
-          }
-        });
+        var decpassword = passwordcrypt.decrypt(witness.password);
+        if (password == decpassword) {
+          return done(null, witness);
+        } else {
+          return done(null, false, { message: "Password Incorrect" });
+        }
       });
     })
   );
