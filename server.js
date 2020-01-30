@@ -9,13 +9,15 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const path = require("path");
+const app = express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 
 if (!process.env.KEY && !process.env.IV) {
   console.error("FATAL ERROR: encryption key and iv not defined");
   process.exit(1);
 }
 
-const app = express();
 const port = process.env.PORT || 3000;
 
 //map global promise - get rid of warning
@@ -96,13 +98,47 @@ app.use("/admin", admin);
 // Passport config file
 require("./config/passport")(passport);
 
-// WitnessPassport config file
-//require("./config/witnesspassport")(passport);
-
 // Static Folder
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/admin", express.static(path.join(__dirname, "public")));
 app.use("/witness", express.static(path.join(__dirname, "public")));
+
+// MODULE 1 part:
+// Videocall part:
+let clients = 0;
+io.on("connection", function(socket) {
+  socket.on("NewClient", function() {
+    if (clients < 2) {
+      if (clients == 1) {
+        this.emit("CreatePeer");
+      }
+    } else {
+      this.emit("SessionActive");
+    }
+    clients++;
+  });
+
+  socket.on("Offer", SendOffer);
+  socket.on("Answer", SendAnswer);
+  socket.on("disconnect", Disconnect);
+});
+
+function Disconnect() {
+  if (clients > 0) {
+    clients--;
+    this.emit("RemovePeer");
+  }
+}
+
+function SendOffer(offer) {
+  this.broadcast.emit("BackOffer", offer);
+}
+
+function SendAnswer(data) {
+  this.broadcast.emit("BackAnswer", data);
+}
+
+// videocall part end
 
 //Index or homepage route
 app.get("/", (req, res) => {
@@ -137,6 +173,6 @@ app.delete("/admin/witness-list/:email", (req, res) => {
 });
 
 //starts the server
-app.listen(port, () => {
+http.listen(port, () => {
   console.log(`server started on port ${port}`);
 });
