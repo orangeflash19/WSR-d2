@@ -1,4 +1,5 @@
 const express = require("express");
+const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
@@ -149,6 +150,72 @@ router.post("/register-witness", (req, res) => {
 // Admin send Credentials to witness route
 router.get("/send-credentials", checkAdmin, (req, res) => {
   res.render("admin/send-credentials", { layout: "admindashboard" });
+});
+
+// Admin send credentials form POST
+router.post("/send-credentials", (req, res) => {
+  let errors = [];
+  if (!req.body.email) {
+    errors.push({ text: "please provide a email" });
+  }
+
+  if (errors.length > 0) {
+    res.render("admin/register-witness", {
+      errors: errors,
+      email: req.body.email,
+      layout: "admindashboard"
+    });
+  } else {
+    Witness.findOne({ email: req.body.email }).then(witness => {
+      // check if witness account with the given email exists
+      if (!witness) {
+        req.flash("error_msg", "Invalid email: not a registered witness email");
+        req.redirect("/admin/send-credentials");
+      }
+      // if witness account exists decrypt its password and store it in dnc
+      var dnc = passwordcrypt.decrypt(witness.password);
+
+      // send email to witness
+      const output = `<p>This is your password for WSR account => ${dnc}</p>`;
+
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: "rentaros80@gmail.com", // email id of sender
+          pass: "satomiren" // email password of sender
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
+      });
+
+      // setup email data with unicode symbols
+      let mailOptions = {
+        from: '"Nodemailer Contact testing" <rentaros80@gmail.com>', // sender address
+        to: req.body.email, // list of receivers
+        subject: "Node witness password", // Subject line
+        text: "This is your password for WSR account", // plain text body
+        html: output // html body
+      };
+
+      // send mail with defined transport object
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          return console.log(error);
+        }
+
+        console.log("Message sent: %s", info.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+        req.flash("success_msg", "Email has been sent");
+        res.redirect("/admin/send-credentials");
+      });
+    });
+  }
 });
 
 // Admin witness list route
