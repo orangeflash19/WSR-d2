@@ -185,8 +185,8 @@ router.post("/send-credentials", (req, res) => {
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-          user: "rentaros80@gmail.com", // email id of sender
-          pass: "satomiren" // email password of sender
+          user: process.env.EMAIL, // email id of sender
+          pass: process.env.PASSWORD // email password of sender
         },
         tls: {
           rejectUnauthorized: false
