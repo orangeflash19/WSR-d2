@@ -8111,6 +8111,7 @@ function config (name) {
 },{}],34:[function(require,module,exports){
 let Peer = require("simple-peer");
 let socket = io();
+const SpeechRecognitionApi = require("./speech");
 const video = document.querySelector("#smallVideoTag");
 let client = {};
 let constraints = {
@@ -8228,30 +8229,105 @@ function mediaDownloader(stream) {
   //add listeners for saving video/audio
   let start = document.getElementById("btnStart");
   let stop = document.getElementById("btnStop");
-  let vidSave = document.getElementById("vid2");
   let mediaRecorder = new MediaRecorder(stream);
   let chunks = [];
+  let output = [];
+  var speech = new SpeechRecognitionApi({
+    output: document.querySelector(".output")
+  });
 
   start.addEventListener("click", ev => {
     mediaRecorder.start();
+    speech.init();
     console.log(mediaRecorder.state);
   });
   stop.addEventListener("click", ev => {
     mediaRecorder.stop();
+    speech.stop();
     console.log(mediaRecorder.state);
   });
   mediaRecorder.ondataavailable = function(ev) {
     chunks.push(ev.data);
   };
   mediaRecorder.onstop = ev => {
-    let blob = new Blob(chunks, { type: "video/mp4;" });
+    let blob = new Blob(chunks, { type: "video/mp4" });
     chunks = [];
-    let videoURL = window.URL.createObjectURL(blob);
-    vidSave.src = videoURL;
+    let url = window.URL.createObjectURL(blob);
+    const downloadButton = document.querySelector("button#download");
+    downloadButton.addEventListener("click", () => {
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = "test.mp4";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 3000);
+    });
+
+    // for audio text
+    output.push(document.querySelector(".output").textContent);
+    console.log(output);
+    let blob1 = new Blob(output, { type: "text/plain" });
+    let url1 = window.URL.createObjectURL(blob1);
+    output = [];
+    const downloadtxt = document.querySelector("button#downloadtxt");
+    downloadtxt.addEventListener("click", () => {
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url1;
+      a.download = "audiotext.txt";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 3000);
+    });
   };
-  if (err) {
-    console.log(err.name, err.message);
-  }
 }
 
-},{"simple-peer":27}]},{},[34]);
+},{"./speech":35,"simple-peer":27}],35:[function(require,module,exports){
+class SpeechRecognitionApi {
+  constructor(options) {
+    const speechToText =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    this.speechApi = new speechToText();
+    this.speechApi.continuous = true;
+    this.speechApi.interimResult = false;
+    this.output = options.output
+      ? options.output
+      : document.createElement("div");
+    this.speechApi.onresult = event => {
+      var resultIndex = event.resultIndex;
+      var transcript = event.results[resultIndex][0].transcript;
+      this.output.textContent += transcript;
+    };
+  }
+  init() {
+    this.speechApi.start();
+  }
+  stop() {
+    this.speechApi.stop();
+  }
+}
+// window.onload = function() {
+//   var speech = new SpeechRecognitionApi({
+//     output: document.querySelector(".output")
+//   });
+
+//   var btnStart = document.querySelector(".btn-start");
+//   var btnStop = document.querySelector(".btn-end");
+
+//   btnStart.addEventListener("click", () => {
+//     speech.init();
+//   });
+//   btnStop.addEventListener("click", () => {
+//     speech.stop();
+//   });
+// };
+module.exports = SpeechRecognitionApi;
+
+},{}]},{},[34]);
