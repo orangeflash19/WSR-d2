@@ -8233,7 +8233,8 @@ function mediaDownloader(stream) {
   let chunks = [];
   let output = [];
   var speech = new SpeechRecognitionApi({
-    output: document.querySelector(".output")
+    output: document.querySelector(".output"),
+    stream: stream
   });
 
   start.addEventListener("click", ev => {
@@ -8294,7 +8295,7 @@ class SpeechRecognitionApi {
   constructor(options) {
     const speechToText =
       window.SpeechRecognition || window.webkitSpeechRecognition;
-    this.speechApi = new speechToText();
+    this.speechApi = new speechToText(output.stream);
     this.speechApi.continuous = true;
     this.speechApi.interimResult = false;
     this.output = options.output
