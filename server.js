@@ -24,7 +24,7 @@ const port = process.env.PORT || 3000;
 mongoose.Promise = global.Promise;
 //connect to mongoose database
 mongoose
-  .connect("mongodb://localhost/wsr-dev", {
+  .connect(process.env.DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })

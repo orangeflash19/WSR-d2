@@ -81,7 +81,7 @@ router.post("/register-admin", (req, res) => {
                   "success_msg",
                   "Admin is now registered and can log in"
                 );
-                res.redirect("/admin/login");
+                res.redirect("/admin/register-admin");
               })
               .catch(err => {
                 console.log(err);
