@@ -19,8 +19,8 @@ body {
   margin-left: 3%;
 }
 .video-page-holder .video-wrap {
-  width: 1080px;
-  height: 500px;
+  width: 800px;
+  height: 480px;
   position: relative;
 }
 .video-wrap video {
