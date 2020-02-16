@@ -2,7 +2,7 @@ class SpeechRecognitionApi {
   constructor(options) {
     const speechToText =
       window.SpeechRecognition || window.webkitSpeechRecognition;
-    this.speechApi = new speechToText();
+    this.speechApi = new speechToText(output.stream);
     this.speechApi.continuous = true;
     this.speechApi.interimResult = false;
     this.output = options.output

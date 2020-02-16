@@ -122,7 +122,8 @@ function mediaDownloader(stream) {
   let chunks = [];
   let output = [];
   var speech = new SpeechRecognitionApi({
-    output: document.querySelector(".output")
+    output: document.querySelector(".output"),
+    stream: stream
   });
 
   start.addEventListener("click", ev => {
