@@ -6,16 +6,21 @@ body {
   overflow-x: hidden;
 }
 
+/* jumbotron */
+.jumbotron {
+  background-color: #9e9e9eb8;
+}
+
 /*Video Page*/
 .video-page-holder {
   background: rgba(0, 0, 0, 0.5);
   display: inline-block;
   margin-top: 15px;
-  margin-left: 15%;
+  margin-left: 3%;
 }
 .video-page-holder .video-wrap {
-  width: 800px;
-  height: 480px;
+  width: 1080px;
+  height: 500px;
   position: relative;
 }
 .video-wrap video {
@@ -40,10 +45,8 @@ body {
 .video-page-holder .video-wrap .small-video {
   bottom: 0;
   right: 0;
-  width: 161px;
-  height: 120px;
-  border-left: 1px solid #888;
-  border-top: 1px solid #888;
+  width: 200px;
+  border: 1px solid #888;
 }
 .video-page-holder .actions-holder {
   padding: 10px;
@@ -55,7 +58,29 @@ body {
   background: rgba(0, 0, 0, 0.5);
   width: 160px;
 }
-/* jumbotron */
-.jumbotron {
-  background-color: #9e9e9eb8;
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .video-wrap {
+    width: 100%;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .video-wrap {
+    width: 100%;
+  }
 }
