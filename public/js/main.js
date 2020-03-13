@@ -43,7 +43,7 @@ navigator.mediaDevices
 
       peer.on("stream", function(stream) {
         CreateVideo(stream);
-        mediaDownloader(stream);
+        //mediaDownloader(stream);
       });
 
       peer.on("close", function() {
@@ -112,68 +112,3 @@ navigator.mediaDevices
     socket.on("RemovePeer", RemovePeer);
   })
   .catch(err => console.log(err));
-
-function mediaDownloader(stream) {
-  // Media Recorder
-  //add listeners for saving video/audio
-  let start = document.getElementById("btnStart");
-  let stop = document.getElementById("btnStop");
-  let mediaRecorder = new MediaRecorder(stream);
-  let chunks = [];
-  let output = [];
-  var speech = new SpeechRecognitionApi({
-    output: document.querySelector(".output")
-  });
-
-  start.addEventListener("click", ev => {
-    mediaRecorder.start();
-    speech.init();
-    console.log(mediaRecorder.state);
-  });
-  stop.addEventListener("click", ev => {
-    mediaRecorder.stop();
-    speech.stop();
-    console.log(mediaRecorder.state);
-  });
-  mediaRecorder.ondataavailable = function(ev) {
-    chunks.push(ev.data);
-  };
-  mediaRecorder.onstop = ev => {
-    let blob = new Blob(chunks, { type: "video/mp4" });
-    chunks = [];
-    let url = window.URL.createObjectURL(blob);
-    const downloadButton = document.querySelector("button#download");
-    downloadButton.addEventListener("click", () => {
-      const a = document.createElement("a");
-      a.style.display = "none";
-      a.href = url;
-      a.download = "test.mp4";
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(() => {
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      }, 3000);
-    });
-
-    // for audio text
-    output.push(document.querySelector(".output").textContent);
-    console.log(output);
-    let blob1 = new Blob(output, { type: "text/plain" });
-    let url1 = window.URL.createObjectURL(blob1);
-    output = [];
-    const downloadtxt = document.querySelector("button#downloadtxt");
-    downloadtxt.addEventListener("click", () => {
-      const a = document.createElement("a");
-      a.style.display = "none";
-      a.href = url1;
-      a.download = "audiotext.txt";
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(() => {
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      }, 3000);
-    });
-  };
-}

@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <p>
+      {{!-- <p>
         <button id="btnStart" class="btn btn-warning m-1">START RECORDING</button>
         <button id="btnStop" class="btn btn-warning m-1">STOP RECORDING</button>
         <button id="download" class="btn btn-warning m-1">DOWNLOAD</button>
@@ -23,11 +23,28 @@
       <textarea name="" class="output" cols="30" rows="10" style="display: block;"></textarea>
       <div class="text-danger">
         <span id="errorMsg"></span>
+      </div> --}}
+
+      <div class="col p-2">
+        <button class="btn btn-primary" id="starter">
+          Start Recording <i class="fa fa-play"></i>
+        </button>
+        <button class="btn btn-primary" id="stopper">
+          Stop Recording <i class="fa fa-stop"></i>
+        </button>
+        <button class="btn btn-primary" id="downloader">
+          download <i class="fa fa-download"></i>
+        </button>
       </div>
+
     </div>
   </div>
 </div>
 <!-- bundle.js for video call part -->
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/bundle.js" type="text/javascript"></script>
+<script src="/js/adapter.js"></script>
+<script src="/js/RecordRTC.js"></script>
+<script src="/js/courtRecord.js"></script>
+
 <!-- <script src="public/js/recording.js" type="text/javascript"></script> -->
