@@ -18,15 +18,15 @@ router.get("/login", (req, res) => {
 router.post("/login", (req, res, next) => {
   passport.authenticate("witnessLocal", {
     password: req.body.password,
-    successRedirect: "/witness/videocall",
+    successRedirect: "/videoscreen",
     failureRedirect: "/witness/login",
     failureFlash: true
   })(req, res, next);
 });
 
 //Witness videocall page route
-router.get("/videocall", checkWitness, (req, res) => {
-  res.render("witness/videocall");
-});
+// router.get("localhost:3000/videoscreen", checkWitness, (req, res) => {
+//   res.render("videoscreen");
+// });
 
 module.exports = router;

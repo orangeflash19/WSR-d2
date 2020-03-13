@@ -232,8 +232,8 @@ router.get("/witness-list", checkAdmin, (req, res) => {
 });
 
 // Admin Videopage route
-router.get("/videopage", checkAdmin, (req, res) => {
-  res.render("admin/videopage");
+router.get("../videoscreen", checkAdmin, (req, res) => {
+  res.render("videoscreen");
 });
 
 module.exports = router;

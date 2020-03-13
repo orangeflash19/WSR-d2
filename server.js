@@ -153,6 +153,10 @@ app.get("/about", (req, res) => {
   res.render("about");
 });
 
+app.get("/videoscreen", (req, res) => {
+  res.render("videoscreen");
+});
+
 // Logout user route
 app.get("/logout", (req, res) => {
   req.logout();
