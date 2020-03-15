@@ -69,25 +69,25 @@ recognition.onerror = function(event) {
 
 var witnessVoice;
 
-async function startWitnessVoiceCapture() {
-  witnessVoice = await navigator.mediaDevices.getUserMedia({
-    video: false,
-    audio: true
-  });
+// async function startWitnessVoiceCapture() {
+//   witnessVoice = await navigator.mediaDevices.getUserMedia({
+//     video: false,
+//     audio: true
+//   });
 
-  console.log("witnessVoice: " + witnessVoice);
-}
-// for witness stream capture
-if (window.location.pathname == "/videoscreen") {
-  window.onload = startWitnessVoiceCapture;
+//   console.log("witnessVoice: " + witnessVoice);
+// }
+// // for witness stream capture
+// if (window.location.pathname == "/videoscreen") {
+//   window.onload = startWitnessVoiceCapture;
 
-  const logout = document.getElementById("logout-link");
-  logout.addEventListener("click", function() {
-    witnessVoice.forEach(track => {
-      track.stop();
-    });
-  });
-}
+//   const logout = document.getElementById("logout-link");
+//   logout.addEventListener("click", function() {
+//     witnessVoice.forEach(track => {
+//       track.stop();
+//     });
+//   });
+// }
 const starter = document.querySelector("#starter");
 const stopper = document.querySelector("#stopper");
 const downloader = document.querySelector("#downloader");
