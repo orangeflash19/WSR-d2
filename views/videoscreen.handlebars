@@ -70,3 +70,25 @@
 <script src="/js/adapter.js"></script>
 <script src="/js/RecordRTC.js"></script>
 <script src="/js/courtRecord.js"></script>
+{{#if witness}}
+<script>
+  async function startWitnessVoiceCapture() {
+    witnessVoice = await navigator.mediaDevices.getUserMedia({
+      video: false,
+      audio: true
+    });
+
+    console.log("witnessVoice: " + witnessVoice);
+  }
+
+  window.onload = startWitnessVoiceCapture;
+
+  const logout = document.getElementById("logout-link");
+  logout.addEventListener("click", function () {
+    witnessVoice.forEach(track => {
+      track.stop();
+    });
+  });
+
+</script>
+{{/if}}
