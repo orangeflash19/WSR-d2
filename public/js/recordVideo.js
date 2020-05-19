@@ -112,7 +112,7 @@ function down() {
 
 // for audio text
 function downtxt() {
-  output.push(document.getElementById("outputTextArea"));
+  output.push(document.querySelector("#outputTextArea").textContent);
   console.log(output);
   let blob1 = new Blob(output, { type: "text/plain" });
   RecordRTC.invokeSaveAsDialog(blob1, "audiotext.txt");
