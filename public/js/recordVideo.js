@@ -85,12 +85,12 @@ async function startCapture() {
   });
 
   recorder.startRecording();
-  speech.init();
+  speech.init([courtstream, witstream]);
 }
 
 // stop Capturing Screen
 async function stopCapture() {
-  speech.stop();
+  speech.stop([courtstream, witstream]);
   await recorder.stopRecording();
   blob = await recorder.getBlob();
   console.log("blob: " + blob);
