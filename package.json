@@ -15,6 +15,7 @@
   "author": "Ranveersinh",
   "license": "ISC",
   "dependencies": {
+    "@vitalets/google-translate-api": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "config": "^3.2.5",
@@ -23,7 +24,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.17.0",
-    "handlebars": "^4.7.2",
+    "handlebars": "^4.7.6",
     "method-override": "^3.0.0",
     "mongoose": "^5.8.7",
     "node-static": "^0.7.10",

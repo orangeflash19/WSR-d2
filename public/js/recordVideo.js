@@ -111,12 +111,12 @@ function down() {
 }
 
 // for audio text
-function downtxt() {
-  output.push(document.querySelector("#outputTextArea").textContent);
-  console.log(output);
-  let blob1 = new Blob(output, { type: "text/plain" });
-  RecordRTC.invokeSaveAsDialog(blob1, "audiotext.txt");
-}
+// function downtxt() {
+//   output.push(document.querySelector("#outputTextArea").textContent);
+//   console.log(output);
+//   let blob1 = new Blob(output, { type: "text/plain" });
+//   RecordRTC.invokeSaveAsDialog(blob1, "audiotext.txt");
+// }
 
 starter.addEventListener("click", () => {
   starter.style.display = "none";
@@ -145,11 +145,11 @@ downloader.addEventListener("click", () => {
   down();
 });
 
-downloadtxt.addEventListener("click", () => {
-  starter.style.display = "block";
-  stopper.style.display = "none";
-  downloadtxt.style.display = "none";
-  downtxt();
-});
+// downloadtxt.addEventListener("click", () => {
+//   starter.style.display = "block";
+//   stopper.style.display = "none";
+//   downloadtxt.style.display = "none";
+//   downtxt();
+// });
 
 //---------------------------screen recording part end ------------//

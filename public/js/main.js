@@ -1,4 +1,5 @@
 let Peer = require("simple-peer");
+const translate = require("@vitalets/google-translate-api");
 let socket = io();
 //const SpeechRecognitionApi = require("./speech");
 const video = document.querySelector("#smallVideoTag");
@@ -10,6 +11,11 @@ let constraints = {
   },
   audio: true,
 };
+
+const starter = document.querySelector("#starter");
+const stopper = document.querySelector("#stopper");
+const downloader = document.querySelector("#downloader");
+
 //get the stream
 // navigator.mediaDevices
 //   .getUserMedia()
@@ -110,3 +116,43 @@ navigator.mediaDevices
     socket.on("RemovePeer", RemovePeer);
   })
   .catch((err) => console.log(err));
+
+// For Translation
+const opts = {
+  to: translate.languages.getCode("english"), // Get code of language.
+  from: "hi", // Defaults to "auto" which auto detects the language.
+};
+
+var transText = document.getElementById("outputTextArea").textContent;
+console.log(transText);
+var result = [];
+const downloadtxt = document.querySelector("#downloadtxt");
+translate(transText, opts)
+  .then((response) => {
+    console.log(response.text); // translated text
+    result.push(response.text);
+    //fs.writeFileSync("tranlated_text.txt", response.text);
+    // console.log(response.from.text.value);
+    // console.log(response.from.language.iso); // translated from...
+  })
+  .catch(console.error);
+
+downloadtxt.addEventListener("click", () => {
+  starter.style.display = "block";
+  stopper.style.display = "none";
+  downloadtxt.style.display = "none";
+
+  let blob2 = new Blob(result, { type: "text/plain" });
+  let url2 = window.URL.createObjectURL(blob2);
+
+  const a = document.createElement("a");
+  a.style.display = "none";
+  a.href = url2;
+  a.download = "audiotext.txt";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }, 3000);
+});
