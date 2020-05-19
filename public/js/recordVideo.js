@@ -111,26 +111,9 @@ function down() {
 }
 
 // for audio text
-const opts = {
-  to: translate.languages.getCode("english"), // Get code of language.
-  from: "hi", // Defaults to "auto" which auto detects the language.
-};
-
-var transText = document.querySelector("#outputTextArea").textContent;
-console.log(transText);
-
-translate(transText, opts)
-  .then((response) => {
-    console.log(response.text); // translated text
-    output.push(response.text);
-    //fs.writeFileSync('tranlated_text.txt',response.text)
-    // console.log(response.from.text.value);
-    // console.log(response.from.language.iso); // translated from...
-  })
-  .catch(console.error);
-
 function downtxt() {
-  //console.log(output);
+  output.push(document.getElementById("outputTextArea"));
+  console.log(output);
   let blob1 = new Blob(output, { type: "text/plain" });
   RecordRTC.invokeSaveAsDialog(blob1, "audiotext.txt");
 }
