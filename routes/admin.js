@@ -25,7 +25,7 @@ router.post("/login", (req, res, next) => {
   passport.authenticate("adminLocal", {
     successRedirect: "/admin/dashboard",
     failureRedirect: "/admin/login",
-    failureFlash: true
+    failureFlash: true,
   })(req, res, next);
 });
 
@@ -57,17 +57,17 @@ router.post("/register-admin", (req, res) => {
       username: req.body.username,
       password: req.body.password,
       password2: req.body.password2,
-      layout: "admindashboard"
+      layout: "admindashboard",
     });
   } else {
-    Admin.findOne({ username: req.body.username }).then(admin => {
+    Admin.findOne({ username: req.body.username }).then((admin) => {
       if (admin) {
         req.flash("error_msg", "username already registered");
         res.redirect("/admin/register-admin");
       } else {
         const newAdmin = new Admin({
           username: req.body.username,
-          password: req.body.password
+          password: req.body.password,
         });
         // console.log(newAdmin);
         bcrypt.genSalt(10, (err, salt) => {
@@ -83,7 +83,7 @@ router.post("/register-admin", (req, res) => {
                 );
                 res.redirect("/admin/register-admin");
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(err);
                 return;
               });
@@ -111,17 +111,17 @@ router.post("/register-witness", (req, res) => {
       errors: errors,
       email: req.body.email,
       password: req.body.password,
-      layout: "admindashboard"
+      layout: "admindashboard",
     });
   } else {
-    Witness.findOne({ email: req.body.email }).then(witness => {
+    Witness.findOne({ email: req.body.email }).then((witness) => {
       if (witness) {
         req.flash("error_msg", "email already registered");
         res.redirect("/admin/register-witness");
       } else {
         const newWitness = new Witness({
           email: req.body.email,
-          password: req.body.password
+          password: req.body.password,
         });
 
         // encrypting witness account password
@@ -138,7 +138,7 @@ router.post("/register-witness", (req, res) => {
             );
             res.redirect("/admin/register-witness");
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
             return;
           });
@@ -163,10 +163,10 @@ router.post("/send-credentials", (req, res) => {
     res.render("admin/register-witness", {
       errors: errors,
       email: req.body.email,
-      layout: "admindashboard"
+      layout: "admindashboard",
     });
   } else {
-    Witness.findOne({ email: req.body.email }).then(witness => {
+    Witness.findOne({ email: req.body.email }).then((witness) => {
       // check if witness account with the given email exists
       if (!witness) {
         req.flash("error_msg", "Invalid email: not a registered witness email");
@@ -186,11 +186,11 @@ router.post("/send-credentials", (req, res) => {
         secure: false, // true for 465, false for other ports
         auth: {
           user: process.env.EMAIL, // email id of sender
-          pass: process.env.PASSWORD // email password of sender
+          pass: process.env.PASSWORD, // email password of sender
         },
         tls: {
-          rejectUnauthorized: false
-        }
+          rejectUnauthorized: false,
+        },
       });
 
       // setup email data with unicode symbols
@@ -199,7 +199,7 @@ router.post("/send-credentials", (req, res) => {
         to: req.body.email, // list of receivers
         subject: "Node witness password", // Subject line
         text: "This is your password for WSR account", // plain text body
-        html: output // html body
+        html: output, // html body
       };
 
       // send mail with defined transport object
@@ -223,10 +223,10 @@ router.get("/witness-list", checkAdmin, (req, res) => {
   Witness.find({})
     .sort({ date: "desc" })
     .lean()
-    .then(witnesses => {
+    .then((witnesses) => {
       res.render("admin/witness-list", {
         witnesses: witnesses,
-        layout: "admindashboard"
+        layout: "admindashboard",
       });
     });
 });
